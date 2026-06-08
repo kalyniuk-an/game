@@ -3,6 +3,7 @@ import { Tile } from './tile.js';
 export class Grid {
   title = [];
   selectedTile = null;
+  isGameBlocked = false;
 
   constructor(wrap, matrix) {
     this.wrap = wrap;
@@ -24,6 +25,11 @@ export class Grid {
 
   handleTileClick = (row, column) => {
     // console.log(row, column);
+
+    if (this.isGameBlocked) {
+      return;
+    }
+
     if (!this.selectedTile) {
       this.selectTile(row, column);
       return;
@@ -35,6 +41,18 @@ export class Grid {
       this.unselectTile();
       this.selectTile(row, column);
     }
+
+    const firstElementPosition = { row: this.selectedTile.row, column: this.selectedTile.column };
+    const secondElementPosition = { row, column };
+
+    const event = new CustomEvent('swap', {
+      detail: {
+        firstElementPosition,
+        secondElementPosition,
+      },
+    });
+
+    this.wrap.dispatchEvent(event);
   }
 
   selectTile(row, column) {
@@ -55,5 +73,29 @@ export class Grid {
     const isColomnNeighbors = this.selectedTile.column === column && Math.abs(this.selectedTile.row - row) === 1;
     const isRowNeighbors = this.selectedTile.row === row && Math.abs(this.selectedTile.column - column) === 1;
     return isColomnNeighbors || isRowNeighbors;
+  }
+
+  async swap(firstTilePosition, secondTilePosition, swapStates) {
+    this.isGameBlocked = true;
+
+    const firstTile = this.findTileBy(firstTilePosition.row, firstTilePosition.column);
+    const secondTile = this.findTileBy(secondTilePosition.row, secondTilePosition.column);
+    this.unselectTile();
+    const fistTileAnimation = this.moveTileTo(firstTile, secondTilePosition);
+    const secondTileAnimation = this.moveTileTo(secondTile, firstTilePosition);
+    await Promise.all([fistTileAnimation, secondTileAnimation]);
+
+    if (!swapStates) {
+      const fistTileAnimation = this.moveTileTo(firstTile, firstTilePosition);
+      const secondTileAnimation = this.moveTileTo(secondTile, secondTilePosition);
+      await Promise.all([fistTileAnimation, secondTileAnimation]);
+      this.isGameBlocked = false;
+      return;
+    }
+  }
+
+  async moveTileTo(tile, position) {
+    tile.setPositionBy(position.row, position.column);
+    await tile.waitForTransitionEnd();
   }
 }
