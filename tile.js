@@ -29,11 +29,11 @@ export class Tile {
   async remove() {
     this.tileElement.removeEventListener("click", this.clickHandler)
     this.tileElement.classList.add("hide");
-     await this.waitForAnimetionEnd();
+     await this.waitForAnimationEnd();
     this.tileElement.remove();
   }
   
-  waitForAnimetionEnd() {
+  waitForAnimationEnd() {
     return new Promise(resolve => {
       this.tileElement.addEventListener("animationend", resolve, { once: true });
     });
