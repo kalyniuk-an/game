@@ -42,6 +42,7 @@ export class Grid {
       // console.log("swap");
       this.unselectTile();
       this.selectTile(row, column);
+      return;
     }
 
     const firstElementPosition = { row: this.selectedTile.row, column: this.selectedTile.column };
