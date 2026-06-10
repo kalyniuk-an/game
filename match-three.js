@@ -21,6 +21,11 @@ export class MatchThree {
     const swapStates = this.game.swap(firstElementPosition, secondElementPosition);
     // console.log(swapStates);
     await this.grid.swap(firstElementPosition, secondElementPosition, swapStates);
+    this.updateScore();
   }
 
+  updateScore() {
+    const scoreElement = document.querySelector('.score');
+    scoreElement.textContent = `Score: ${this.game.score}`;
+  }
 }
