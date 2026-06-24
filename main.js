@@ -1,7 +1,10 @@
 import { MatchThree } from './match-three.js';
-
+const s = document.querySelector(".start");
+const c = document.querySelector(".c");
+console.log(s);
 function startGame() {
-  new MatchThree(8, 8,7);
+  // const c = Number(form.elements.c.value);
+  new MatchThree(9, 9, 8);
 }
 
 startGame();
