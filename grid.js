@@ -127,7 +127,8 @@ export class Grid {
   }
 
   removeTileFromArrayBy(row, column) {
-    this.tiles = this.tiles.filter(tile => tile.row !== row || tile.column !== column);
+    return this.tiles = this.tiles.filter(tile => tile.row !== row || tile.column !== column);
+    // this.title = this.tiles.filter(tile => tile.row !== row || tile.column !== column);
   }
 
   async dropTiles(gridBefore, gridAfter) {
