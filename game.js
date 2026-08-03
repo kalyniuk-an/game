@@ -72,7 +72,7 @@ export class Game {
     const isRowWithSecondElement = this.isRow(secondElement.row, secondElement.column);
 
     if (!isRowWithFirstElement && !isRowWithSecondElement) {
-      //this.swap2Elements(firstElement, secondElement);
+      this.swap2Elements(firstElement, secondElement);
       return null;
     }
 
