@@ -4,7 +4,7 @@ const c = document.querySelector(".c");
 console.log(s);
 function startGame() {
   // const c = Number(form.elements.c.value);
-  new MatchThree(9, 9, 8);
+  new MatchThree(10, 10, 9);
 }
 
 startGame();
